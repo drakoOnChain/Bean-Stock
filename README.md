@@ -1,6 +1,6 @@
 
 
-## 🫘 BeanToken DApp — Tokenized Coffee Rewards
+##  BeanToken DApp — Tokenized Coffee Rewards
 
 ### Overview
 
@@ -11,7 +11,7 @@ writing, testing, deploying, and interacting with an ERC-20 token through a conn
 
 ---
 
-### 🌱 Background
+###  Background
 
 I built **BeanToken** as part of my blockchain learning journey to understand the bridge between smart contracts and the frontend layer.
 Originally, I worked only in Solidity — writing contracts, deploying, and testing on Remix or Hardhat. But this project marks the transition into **full-stack Web3 development**, integrating blockchain logic with real-world UI components.
@@ -27,7 +27,7 @@ The goal is to replicate how token economies can drive user engagement and autom
 ---
 
 
-### ⚙️ Smart Contract Overview
+###  Smart Contract Overview
 
 **File:** `contracts/BeanToken.sol`
 
@@ -43,7 +43,7 @@ The goal is to replicate how token economies can drive user engagement and autom
 
 ---
 
-### 💻 Frontend Setup
+###  Frontend Setup
 
 **Folder Structure**
 
@@ -80,7 +80,7 @@ npm run dev
 
 ---
 
-### 🔗 Interaction Flow
+###  Interaction Flow
 
 1. **Connect Wallet** — MetaMask popup opens automatically.
 2. **View Balance** — Displays the current BEAN token balance.
@@ -90,7 +90,7 @@ npm run dev
 
 ---
 
-### 🧠 Learning Outcomes
+###  Learning Outcomes
 
 Through this project, I gained deeper understanding of:
 
