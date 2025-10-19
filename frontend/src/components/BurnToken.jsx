@@ -1,37 +1,44 @@
-import React, { useState } from "react";
-import { ethers } from "ethers";
-import { getBeanContract } from "../utils/contract";
+import { useState } from "react";
 
-export default function BurnToken({ provider, onSuccess }) {
-    const [status, setStatus] = useState("");
-    const [amount, setAmount] = useState("1");
+function BurnToken({ burnTokens, balance }) {
+    const [amount, setAmount] = useState("");
 
-    async function burn() {
-        try {
-            if (!provider) throw new Error("Wallet not connected");
-
-            const contract = await getBeanContract(provider, true);
-            const tx = await contract.burn(ethers.parseUnits(amount, 18));
-            setStatus("⏳ Waiting for confirmation...");
-            await tx.wait();
-            setStatus("✅ Tokens burned!");
-            if (onSuccess) onSuccess();
-        } catch (err) {
-            console.error(err);
-            setStatus("❌ " + (err.message || "Transaction failed"));
+    const handleBurn = async () => {
+        if (!amount || amount <= 0) {
+            alert("Please enter a valid amount");
+            return;
         }
-    }
+
+        if (parseFloat(balance) < parseFloat(amount)) {
+            alert(`Insufficient balance! You have ${balance} BEAN`);
+            return;
+        }
+
+        await burnTokens(amount);
+        setAmount("");
+    };
 
     return (
-        <div style={{ marginTop: "1rem" }}>
+        <div className="card">
+            <h2>Burn Tokens</h2>
+            <p style={{ color: 'var(--text-dim)', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                Destroy BEAN tokens (irreversible)
+            </p>
+            <p style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>
+                Your balance: <strong>{balance} BEAN</strong>
+            </p>
             <input
-                placeholder="Amount to burn"
+                type="number"
+                placeholder="Enter amount to burn"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                style={{ marginRight: "1rem", width: "100px" }}
+                min="1"
+                max={balance}
             />
-            <button onClick={burn}>Burn</button>
-            <p>{status}</p>
+            <br />
+            <button onClick={handleBurn}>Burn Tokens</button>
         </div>
     );
 }
+
+export default BurnToken;

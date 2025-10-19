@@ -1,44 +1,35 @@
-import React, { useState } from "react";
-import { ethers } from "ethers";
-import { getBeanContract } from "../utils/contract";
+import { useState } from "react";
 
-export default function MintToken({ provider, onSuccess }) {
-    const [status, setStatus] = useState("");
-    const [to, setTo] = useState("");
-    const [amount, setAmount] = useState("10");
+function MintToken({ mintTokens }) {
+    const [amount, setAmount] = useState("");
 
-    async function mint() {
-        try {
-            if (!provider) throw new Error("Wallet not connected");
-
-            const contract = await getBeanContract(provider, true);
-            const tx = await contract.mint(to, ethers.parseUnits(amount, 18));
-            setStatus("⏳ Waiting for confirmation...");
-            await tx.wait();
-            setStatus("✅ Tokens minted!");
-            if (onSuccess) onSuccess();
-        } catch (err) {
-            console.error(err);
-            setStatus("❌ " + (err.message || "Transaction failed"));
+    const handleMint = async () => {
+        if (!amount || amount <= 0) {
+            alert("Please enter a valid amount");
+            return;
         }
-    }
+
+        await mintTokens(amount);
+        setAmount("");
+    };
 
     return (
-        <div style={{ marginTop: "1rem" }}>
+        <div className="card">
+            <h2>Mint Tokens</h2>
+            <p style={{ color: 'var(--text-dim)', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                Create new BEAN tokens
+            </p>
             <input
-                placeholder="Recipient address"
-                value={to}
-                onChange={(e) => setTo(e.target.value)}
-                style={{ marginRight: "1rem", width: "250px" }}
-            />
-            <input
-                placeholder="Amount"
+                type="number"
+                placeholder="Enter amount to mint"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                style={{ marginRight: "1rem", width: "100px" }}
+                min="1"
             />
-            <button onClick={mint}>Mint</button>
-            <p>{status}</p>
+            <br />
+            <button onClick={handleMint}>Mint Tokens</button>
         </div>
     );
 }
+
+export default MintToken;
